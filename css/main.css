@@ -14,6 +14,7 @@ p {
     text-shadow: 8px 8px 25px #6155A6;
     margin-top: 50px;
     margin-bottom: 50px;
+    animation: appear 1s ease-in-out forwards;
 }
 
 .navtext {
@@ -33,6 +34,7 @@ p {
     height: 100px;
     box-shadow: 0 0 25px #6155A6;
     text-shadow: 0 0 5px #808080;
+    animation: appear 1.5s ease-in-out forwards;
 }
 
 .center {
@@ -54,3 +56,13 @@ p {
     justify-content: center;
 }
 
+@keyframes appear {
+    0% { 
+        opacity: 0%; 
+        transform: translateY( -30px );
+    }
+    100% {
+        opacity: 100%;
+        transform: translateY( 0px );
+    }
+}
