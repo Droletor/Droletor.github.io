@@ -1,6 +1,6 @@
 
 body {
-    background-image: linear-gradient(to bottom, #FDFFE7, #99F0CA)
+    background-image: linear-gradient(to bottom, #ffffff, #70ffc1)
 }
 
 p {
@@ -14,7 +14,14 @@ p {
     text-shadow: 8px 8px 25px #8C7676;
     margin-top: 50px;
     margin-bottom: 50px;
+    user-select: none;
     animation: appear 0.6s ease-in-out forwards;
+}
+
+.clearbutton {
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
 .navtext {
@@ -27,6 +34,7 @@ p {
 
 .wiptext {
     position: absolute;
+    user-select: none;
     top: 10px;
 }
 
