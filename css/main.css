@@ -1,6 +1,6 @@
 
 body {
-    background-image: linear-gradient(to bottom ,#FFE6E6, #FFABE1)
+    background-image: linear-gradient(to bottom, #ffffff, #70ffc1)
 }
 
 p {
@@ -11,22 +11,30 @@ p {
 .bigtext {
     font-size: 150px;
     letter-spacing: 10px;
-    text-shadow: 8px 8px 25px #6155A6;
+    text-shadow: 8px 8px 25px #8C7676;
     margin-top: 50px;
     margin-bottom: 50px;
-    animation: appear 1s ease-in-out forwards;
+    user-select: none;
+    animation: appear 0.6s ease-in-out forwards;
+}
+
+.clearbutton {
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
 .navtext {
     color: black;
     font-family: 'Barlow';
     font-size: 25px;
-    text-shadow: 8px 8px 25px #6155A6;
+    text-shadow: 8px 8px 25px #8C7676;
     transition: font-size 0.2s ease-out 100ms;
 }
 
 .wiptext {
     position: absolute;
+    user-select: none;
     top: 10px;
 }
 
@@ -36,12 +44,12 @@ p {
     align-items: center;
     line-height: 10px;
     border-radius: 25px;
-    background: #FFABE1;
+    background: #99F0CA;
     width: 600px;
     height: 100px;
-    box-shadow: 0 0 25px #6155A6;
+    box-shadow: 0 0 25px #8C7676;
     text-shadow: 0 0 5px #808080;
-    animation: appear 1.5s ease-in-out forwards;
+    animation: appear 0.7s ease-in-out forwards;
 }
 
 .center {
