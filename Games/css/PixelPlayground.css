@@ -1,0 +1,54 @@
+body {
+    margin: 0;
+}
+
+.pixelcanvas {
+    height: 100%;
+    width: 100%;
+}
+
+.griditem {
+    height: 30px;
+    width: 30px;
+    background: linear-gradient(#00ffff, #b6ff00);
+}
+
+.grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#outer {
+    position: absolute;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    top: 10px;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.panel {
+    position: absolute;
+    display: flex;
+    line-height: 10px;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 25px;
+    background: #99F0CA;
+    box-shadow: 0 0 25px #8C7676;
+    text-shadow: 0 0 5px #808080;
+    height: 100px;
+    top: -60px;
+    width: 600px;
+    opacity: 40%;
+    pointer-events: all;
+    transition: opacity 0.2s ease-in-out, top 0.2s ease-in-out;
+}
+
+.panel:hover {
+    opacity: 100%;
+    top: 0px;
+}
