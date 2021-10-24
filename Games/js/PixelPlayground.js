@@ -59,19 +59,32 @@ function redrawGrid(ctx, canvas, scale) {
     visualizeMatrix(ctx, matrix, scale)
 }
 
+function draw(scale, x, y) {
+    matrix[Math.floor(x / scale)][Math.floor(y / scale)] = 1;
+}
+
 function init() {
     var scale = 30
-    var maxScale = scale;
+    var mouseState = false
+    var maxScale = scale
     var pixel_canvas = document.getElementById("pixcan")
     var ctx = pixel_canvas.getContext("2d")
     ctx.canvas.width = window.innerWidth;
     ctx.canvas.height = window.innerHeight;
     clearGrid(ctx, pixel_canvas, scale)
     pixel_canvas.addEventListener('mousedown', e => {
-        x = e.offsetX;
-        y = e.offsetY;
-        matrix[Math.floor(x / scale)][Math.floor(y / scale)] = 1;
+        mouseState = true
+        draw(scale, e.offsetX, e.offsetY)
         clearGrid(ctx, pixel_canvas, scale, false)
+    });
+    pixel_canvas.addEventListener('mouseup', e => {
+        mouseState = false
+    });
+    pixel_canvas.addEventListener('mousemove', e => {
+        if (mouseState) {
+            draw(scale, e.offsetX, e.offsetY)
+            clearGrid(ctx, pixel_canvas, scale, false)
+        }
     });
     document.addEventListener('keydown', (e) => {
         console.log(e)
