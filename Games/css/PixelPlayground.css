@@ -3,6 +3,25 @@ body {
     overflow: hidden;
 }
 
+.button {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    background: #70ffc1;
+    border-radius: 5px;
+    border: solid #8C7676;
+    height: 30px;
+    width: 80px;
+    font-family: 'Barlow';
+    font-size: 15px;
+    text-shadow: 0 0 10px #8C7676;
+    box-shadow: 0 0 10px #8C7676;
+    user-select: none;
+    cursor: pointer;
+}
+
 .pixelcanvas {
     height: 100%;
     width: 100%;
