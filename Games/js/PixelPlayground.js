@@ -107,10 +107,15 @@ function init() {
     });
     pixel_canvas.addEventListener('mousemove', e => {
         if (mouseState) {
-            let dist = distance(mousex, mousey, e.offsetX, e.offsetY)
-            for (var time = 0; time < dist; time++) {
-                let [drawx, drawy] = interpolate(mousex, mousey, e.offsetX, e.offsetY, time / dist)
-                draw(scale, drawx, drawy)
+            if (document.getElementById("interpcheckbox").checked == true) {
+                let dist = distance(mousex, mousey, e.offsetX, e.offsetY)
+                for (var time = 0; time < dist; time++) {
+                    let [drawx, drawy] = interpolate(mousex, mousey, e.offsetX, e.offsetY, time / dist)
+                    draw(scale, drawx, drawy)
+                }
+            }
+            else {
+                draw(scale, e.offsetX, e.offsetY)
             }
             clearGrid(ctx, pixel_canvas, scale, false)
         }
