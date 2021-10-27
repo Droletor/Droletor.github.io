@@ -1,4 +1,4 @@
-var scale = 30
+var scale = 20
 var mousex = 0
 var mousey = 0
 window.onload = init;
@@ -23,6 +23,10 @@ function visualizeMatrix(ctx, m, scale) {
 
 function interpolate(x, y, x1, y1, t) {
     return [x + t * (x1 - x), y + t * (y1 - y)]
+}
+
+function distance(x, y, x1, y1) {
+    return Math.sqrt((x - x1) * (x - x1) + (y - y1) * (y - y1))
 }
 
 function drawGrid(ctx, scale, clear = true) {
@@ -103,8 +107,9 @@ function init() {
     });
     pixel_canvas.addEventListener('mousemove', e => {
         if (mouseState) {
-            for (var time = 0; time < 10; time++) {
-                let [drawx, drawy] = interpolate(mousex, mousey, e.offsetX, e.offsetY, time / 10)
+            let dist = distance(mousex, mousey, e.offsetX, e.offsetY)
+            for (var time = 0; time < dist; time++) {
+                let [drawx, drawy] = interpolate(mousex, mousey, e.offsetX, e.offsetY, time / dist)
                 draw(scale, drawx, drawy)
             }
             clearGrid(ctx, pixel_canvas, scale, false)
