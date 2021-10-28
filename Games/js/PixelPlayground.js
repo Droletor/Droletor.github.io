@@ -1,6 +1,7 @@
 var scale = 20
 var mousex = 0
 var mousey = 0
+var selectedTool = 1
 window.onload = init;
 
 //window.onresize = resize
@@ -11,11 +12,25 @@ const max_undos = 10
 function visualizeMatrix(ctx, m, scale) {
     for (var x = 0; x < m.length; x++) {
         for (var y = 0; y < m[x].length; y++) {
-            if (m[x][y] == 1) {
-                ctx.beginPath();
-                ctx.rect(x * scale, y * scale, scale, scale);
-                ctx.fillStyle = "black";
-                ctx.fill();
+            switch (m[x][y]) {
+                case 1:
+                    ctx.beginPath();
+                    ctx.rect(x * scale, y * scale, scale, scale);
+                    ctx.fillStyle = "black";
+                    ctx.fill();
+                    break
+                case 2:
+                    ctx.beginPath();
+                    ctx.rect(x * scale, y * scale, scale, scale);
+                    ctx.fillStyle = "green";
+                    ctx.fill();
+                    break
+                case 3:
+                    ctx.beginPath();
+                    ctx.rect(x * scale, y * scale, scale, scale);
+                    ctx.fillStyle = "red";
+                    ctx.fill();
+                    break
             }
         }
     }
@@ -72,8 +87,12 @@ function redrawGrid(ctx, canvas, scale) {
     visualizeMatrix(ctx, matrix, scale)
 }
 
-function draw(scale, x, y, type = 1) {
-    matrix[Math.floor(x / scale)][Math.floor(y / scale)] = type
+function draw(scale, x, y, override_tool = null) {
+    tool = selectedTool
+    if (override_tool != null) {
+        tool = override_tool
+    }
+    matrix[Math.floor(x / scale)][Math.floor(y / scale)] = tool
 }
 
 function init() {
@@ -96,6 +115,10 @@ function init() {
         }
         draw(scale, e.offsetX, e.offsetY)
         clearGrid(ctx, pixel_canvas, scale, false)
+        if (selectedTool > 1) {
+            selectedTool = 1
+            mouseState = false
+        }
     });
     pixel_canvas.addEventListener('mouseup', e => {
         mouseState = false
@@ -107,7 +130,7 @@ function init() {
     });
     pixel_canvas.addEventListener('mousemove', e => {
         if (mouseState) {
-            if (document.getElementById("interpcheckbox").checked == true) {
+            if (document.getElementById("interpcheckbox").checked == true && selectedTool < 2) {
                 let dist = distance(mousex, mousey, e.offsetX, e.offsetY)
                 for (var time = 0; time < dist; time++) {
                     let [drawx, drawy] = interpolate(mousex, mousey, e.offsetX, e.offsetY, time / dist)
@@ -165,6 +188,11 @@ function button_undo() {
         undo_list.pop(undo_list.length - 1)
         redrawGrid(ctx, pixel_canvas, scale)
     }
+}
+
+function select_tool(tool) {
+    selectedTool = tool;
+    // console.log("Changed tool to " + tool)
 }
 
 /*
