@@ -79,6 +79,8 @@ body {
 .panelright {
     height: 600px;
     width: 200px;
+    display: grid;
+    justify-items: center;
 }
 
 .appearup {
