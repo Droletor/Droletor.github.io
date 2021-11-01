@@ -8,6 +8,7 @@
         <div class="panel appearup">
             <div id="reset" class="button" onclick="button_reset()">RESET</div>
             <div id="undo" class="button" onclick="button_undo()">UNDO</div>
+            <div id="path" class="button" onclick="button_pathfind()">PATHFIND</div>
         </div>
     </div>
     <div id="outercenter">
@@ -23,7 +24,7 @@
             <div class="panel" style="height: auto; width: auto; padding: 5px; position: initial; border-radius: 5px; border: solid #8C7676; flex-direction: column; ">
                 <div style="font-family: 'Barlow'; font-size: 15px; padding: 5px; user-select: none;">Algorithm:</div>
                 <select id="algorithm_select" name="algorithm_select">
-                    <option value="SP">Shortests Path</option>
+                    <option value="SP">Shortest Path</option>
                     <option value="ASTAR">A*</option>
                 </select>
             </div>
