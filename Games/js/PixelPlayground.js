@@ -13,6 +13,12 @@ var isDiagonal = false
 var g_ctx
 var g_canvas
 
+var vis_time = 5
+var is_pathfinding = false
+
+var prev_start = [-1, -1]
+var prev_end = [-1, -1]
+
 function visualizeMatrix(ctx, m, scale) {
     for (var x = 0; x < m.length; x++) {
         for (var y = 0; y < m[x].length; y++) {
@@ -120,11 +126,25 @@ function init() {
             // console.log(undo_list)
         }
         draw(scale, e.offsetX, e.offsetY)
-        clearGrid(ctx, pixel_canvas, scale, false)
         if (selectedTool > 1) {
+            switch (selectedTool) {
+                case 2:
+                    if (prev_start[0] > -1 && prev_start[1] > -1) {
+                        draw(scale, prev_start[0], prev_start[1], 0)
+                    }
+                    prev_start = [e.offsetX, e.offsetY]
+                    break
+                case 3:
+                    if (prev_end[0] > -1 && prev_end[1] > -1) {
+                        draw(scale, prev_end[0], prev_end[1], 0)
+                    }
+                    prev_end = [e.offsetX, e.offsetY]
+                    break
+            }
             selectedTool = 1
             mouseState = false
         }
+        clearGrid(ctx, pixel_canvas, scale, false)
     });
     pixel_canvas.addEventListener('mouseup', e => {
         mouseState = false
@@ -201,7 +221,18 @@ function select_tool(tool) {
     // console.log("Changed tool to " + tool)
 }
 
+function button_changediag() {
+    isDiagonal = document.getElementById("diagcheckbox").checked
+}
+
 function button_pathfind() {
+    if (is_pathfinding) {
+        vis_time = 0
+        is_pathfinding = false
+        return
+    }
+    is_pathfinding = true
+    vis_time = 5
     var path_matrix = []
     var start_node = [-1, -1]
     var end_node = [-1, -1]
@@ -233,7 +264,7 @@ function button_pathfind() {
     path_matrix[end_node[0]][end_node[1]] = 0
 
     // console.log(path_matrix)
-    var max_iter = 1000
+    var max_iter = path_matrix.length * path_matrix[0].length
     var iter = 1
     while (path_matrix[end_node[0]][end_node[1]] == 0 && iter < max_iter) {
         for (var x = 0; x < path_matrix.length; x++) {
@@ -262,13 +293,14 @@ function button_pathfind() {
         }
         iter++
     }
+    console.log("Found in ", iter, "iterations")
     // console.log("TEST: ", path_matrix[end_node[0]][end_node[1]])
     // console.log(path_matrix)
-    path = reconstruct_path(path_matrix, end_node, start_node)
+    path = reconstruct_path(path_matrix, end_node, start_node, iter+1)
     visualize_path(path, 5)
 }
 
-function reconstruct_path(mat, start, end) {
+function reconstruct_path(mat, start, end, max_iter) {
     var search_area = [2, 2]
     var offset = [0, 0]
     var path = [start]
@@ -277,14 +309,16 @@ function reconstruct_path(mat, start, end) {
     current[1] = parseInt(start[1])
     while (mat[end[0]][end[1]] != -2) {
         var mini = [-1, -1]
-        var min = 200
+        var min = max_iter
         for (var x = offset[0] - 1; x < search_area[0]; x++) {
             for (var y = offset[1] - 1; y < search_area[1]; y++) {
                 // console.log("x: ", x, " y: ", y)
                 if (current[0] + x >= 0 && current[1] + y >= 0 && current[0] + x < mat.length && current[1] + y < mat[0].length) {
+                    // console.log(mat[current[0] + x][current[1] + y], mat[current[0] + x][current[1] + y])
                     if (mat[current[0] + x][current[1] + y] < min && mat[current[0] + x][current[1] + y] > 0) {
                         min = mat[current[0] + x][current[1] + y]
                         mini = [current[0] + x, current[1] + y]
+                        // console.log(min, mini)
                     }
                 }
             }
@@ -301,12 +335,16 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function visualize_path(path, time) {
+async function visualize_path(path) {
     for (var xy = 1; xy < path.length-1; xy++) {
         draw(scale, path[xy][0] * scale, path[xy][1] * scale, -2)
         redrawGrid(g_ctx, g_canvas, scale)
-        await sleep(time * 1000 / path.length)
+        if (vis_time > 0 && document.getElementById("vischeckbox").checked) {
+            await sleep(vis_time * 1000 / path.length)
+        }
     }
+    is_pathfinding = false
+    vis_time = 5
     remove_path()
 }
 

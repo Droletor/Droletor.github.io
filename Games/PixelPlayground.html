@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <head>
     <link rel="stylesheet" type="text/css" href="./css/PixelPlayground.css">
     <link href="https://fonts.googleapis.com/css2?family=Barlow&display=swap" rel="stylesheet">
@@ -28,12 +29,21 @@
                     <option value="ASTAR">A*</option>
                 </select>
             </div>
-            <div class="panel" style="height: auto; width: auto; padding: 5px; position: initial; border-radius: 5px; border: solid #8C7676;">
-                <input id="interpcheckbox" type="checkbox" value="interpcheckbox" checked="checked" />
-                <label for="interpcheckbox" style="font-family: 'Barlow'; font-size: 15px;">Interpolate drawing?</label>
+            <div>
+                <div class="panel" style="height: auto; width: auto; padding: 5px; position: initial; border-radius: 5px; border: solid #8C7676;">
+                    <input id="interpcheckbox" type="checkbox" value="interpcheckbox" checked="checked" />
+                    <label for="interpcheckbox" style="font-family: 'Barlow'; font-size: 15px;">Interpolate drawing?</label>
+                </div>
+                <div class="panel" style="height: auto; width: auto; padding: 5px; position: initial; border-radius: 5px; border: solid #8C7676;">
+                    <input id="vischeckbox" type="checkbox" value="vischeckbox" checked="checked" />
+                    <label for="vischeckbox" style="font-family: 'Barlow'; font-size: 15px;">Visualize path?</label>
+                </div>
+                <div class="panel" style="height: auto; width: auto; padding: 5px; position: initial; border-radius: 5px; border: solid #8C7676;">
+                    <input id="diagcheckbox" type="checkbox" value="diagcheckbox" checked="checked" onchange="button_changediag()" />
+                    <label for="diagcheckbox" style="font-family: 'Barlow'; font-size: 15px;">Use diagonal?</label>
+                </div>
             </div>
         </div>
     </div>
-    <canvas id="pixcan" class="pixelcanvas">
-    </canvas>
+    <canvas id="pixcan" class="pixelcanvas"></canvas>
 </body>
