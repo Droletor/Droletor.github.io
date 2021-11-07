@@ -72,8 +72,8 @@ function drawGrid(ctx, scale, clear = true) {
     // Matrix
     if (clear) {
         matrix = []
-        for (var i = 0; i < innerWidth / scale; i++) {
-            matrix.push(new Array(Math.floor(innerHeight / scale)).fill(0))
+        for (var i = 0; i <= innerWidth / scale; i++) {
+            matrix.push(new Array(Math.floor(innerHeight / scale + 1)).fill(0))
         }
         undo_list = []
     //console.table(matrix)
@@ -239,6 +239,7 @@ function button_pathfind() {
     for (var i in matrix) {
         var temp_list = []
         for (var j in matrix[i]) {
+            // console.log(i, j)
             if (matrix[i][j] == 1) {
                 temp_list.push(-1)
             }
@@ -296,6 +297,7 @@ function button_pathfind() {
     console.log("Found in ", iter, "iterations")
     // console.log("TEST: ", path_matrix[end_node[0]][end_node[1]])
     // console.log(path_matrix)
+    // console.log(matrix)
     path = reconstruct_path(path_matrix, end_node, start_node, iter+1)
     visualize_path(path, 5)
 }

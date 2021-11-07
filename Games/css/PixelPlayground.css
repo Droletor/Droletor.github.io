@@ -104,3 +104,24 @@ body {
     opacity: 100%;
     right: 0px;
 }
+
+.button:focus {
+    animation: button-click ease-in-out 0.5s;
+}
+
+.button:active {
+    animation: none;
+}
+
+@keyframes button-click {
+    0% {
+        background: #8C7676;
+        color: antiquewhite;
+        font-size: 16px;
+    }
+    100% {
+        background: #70ffc1;
+        color: unset;
+        font-size: 15px;
+    }
+}
