@@ -10,6 +10,7 @@ var undo_list = []
 const max_undos = 10
 
 var isDiagonal = false
+var hasWallcheck = true
 var g_ctx
 var g_canvas
 
@@ -225,6 +226,10 @@ function button_changediag() {
     isDiagonal = document.getElementById("diagcheckbox").checked
 }
 
+function button_changewallcheck() {
+    hasWallcheck = document.getElementById("wallcheckbox").checked
+}
+
 function button_pathfind() {
     if (is_pathfinding) {
         vis_time = 0
@@ -303,8 +308,6 @@ function button_pathfind() {
 }
 
 function reconstruct_path(mat, start, end, max_iter) {
-    var search_area = [2, 2]
-    var offset = [0, 0]
     var path = [start]
     var current = []
     current[0] = parseInt(start[0])
@@ -312,8 +315,28 @@ function reconstruct_path(mat, start, end, max_iter) {
     while (mat[end[0]][end[1]] != -2) {
         var mini = [-1, -1]
         var min = max_iter
-        for (var x = offset[0] - 1; x < search_area[0]; x++) {
-            for (var y = offset[1] - 1; y < search_area[1]; y++) {
+        var search_area = [2, 2]
+        var offset = [0, 0]
+        //console.log(current)
+        if (hasWallcheck) {
+            if (mat[current[0] + 1][current[1]] == -1) {
+                search_area[0]--;
+            }
+            if (mat[current[0] - 1][current[1]] == -1) {
+                search_area[0]--;
+                offset[0]++;
+            }
+            if (mat[current[0]][current[1] + 1] == -1) {
+                search_area[1]--;
+            }
+            if (mat[current[0]][current[1] - 1] == -1) {
+                search_area[1]--;
+                offset[1]++;
+            }
+        }
+        //console.log(search_area, offset)
+        for (var x = offset[0] - 1; x < search_area[0] + offset[0]; x++) {
+            for (var y = offset[1] - 1; y < search_area[1] + offset[1]; y++) {
                 // console.log("x: ", x, " y: ", y)
                 if (current[0] + x >= 0 && current[1] + y >= 0 && current[0] + x < mat.length && current[1] + y < mat[0].length) {
                     // console.log(mat[current[0] + x][current[1] + y], mat[current[0] + x][current[1] + y])
@@ -325,7 +348,7 @@ function reconstruct_path(mat, start, end, max_iter) {
                 }
             }
         }
-        mat[mini[0]][mini[1]] = -2
+        if (mini[0] >= 0 && mini[1] >= 0 && mini[0] < mat.length && mini[1] < mat[0].length) mat[mini[0]][mini[1]] = -2
         current = JSON.parse(JSON.stringify(mini))
         path.push(current)
         // console.log("path: ", current[0], current[1])
